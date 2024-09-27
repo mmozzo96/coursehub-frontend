@@ -16,6 +16,12 @@ const LoginPage: React.FC = () => {
     const dispatch = useAppDispatch();
     const learnersWithName = useAppSelector(selectLearnersWithname);
 
+    React.useEffect(() => {
+        localStorage.removeItem(
+            process.env.REACT_APP_LOCALSTORAGE_USER_ID_KEY!
+        );
+    }, []);
+
     return (
         <Flex
             justifyContent={"center"}
@@ -34,6 +40,11 @@ const LoginPage: React.FC = () => {
                             key={learnerWithName.sys_id}
                             onClick={() => {
                                 dispatch(setCurrentUser(learnerWithName));
+                                localStorage.setItem(
+                                    process.env
+                                        .REACT_APP_LOCALSTORAGE_USER_ID_KEY!,
+                                    learnerWithName.sys_id
+                                );
                             }}
                             href="/main"
                         >

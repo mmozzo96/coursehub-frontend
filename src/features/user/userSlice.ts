@@ -1,4 +1,4 @@
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { RootState } from "../../app/store";
 import { LearnerWithName } from "../../_types";
 
@@ -19,7 +19,7 @@ const initialState: userState = {
 ===============================*/
 
 const userSlice = createSlice({
-    name: "TableData",
+    name: "User",
     initialState,
     reducers: {
         setCurrentUser: (state, action: PayloadAction<LearnerWithName>) => {

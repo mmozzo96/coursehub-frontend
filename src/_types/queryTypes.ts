@@ -32,6 +32,29 @@ export type CourseType = {
     type: string;
 };
 
-export type CourseQuery = Record<string, any> & {
+export type CoursesQuery = Record<string, any> & {
     data?: { result: CourseType[] };
+};
+
+export type CourseSubscription = {
+    sys_id: string;
+    sys_updated_by: string;
+    sys_created_on: string;
+    learner: {
+        link: string;
+        value: string;
+    };
+    sys_mod_count: string;
+    course: {
+        link: string;
+        value: string;
+    };
+    sys_updated_on: string;
+    sys_tags: string;
+    sys_created_by: string;
+    subscription_date: string;
+};
+
+export type CoursesSubscriptionsQuery = Record<string, any> & {
+    data?: { result: CourseSubscription[] };
 };

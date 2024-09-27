@@ -1,15 +1,23 @@
 import React from "react";
 import { useGetTablesQuery } from "./app/store";
-import Router, { Switch, Route } from "crossroad";
+import Router, { Switch, Route, useUrl } from "crossroad";
 import LoginPage from "./pages/Login";
 import MainPage from "./pages/Main";
 import NotFound from "./pages/NotFound";
 import { useAppDispatch } from "./app/hooks";
 import { setLearnersWithname } from "./features/tableData/tableDataSlice";
-import { LearnersQuery } from "./_types";
+import { CoursesQuery, LearnersQuery } from "./_types";
 
 function App() {
+    const [, setUrl] = useUrl();
     const dispatch = useAppDispatch();
+
+    const localStorageUserId = localStorage.getItem(
+        process.env.REACT_APP_LOCALSTORAGE_USER_ID_KEY!
+    );
+    React.useEffect(() => {
+        if (!localStorageUserId) setUrl("/");
+    }, []);
 
     const learnersTableQuery = useGetTablesQuery<LearnersQuery>(
         "x_quo_coursehub_learner"
@@ -19,14 +27,15 @@ function App() {
         dispatch(setLearnersWithname(learnersTableQuery.data.result));
     }, [learnersTableQuery.data]);
 
+    useGetTablesQuery<LearnersQuery>("x_quo_coursehub_course_subscription");
+    useGetTablesQuery<CoursesQuery>("x_quo_coursehub_course");
+
     return (
-        <Router>
-            <Switch>
-                <Route path={"/"} component={LoginPage} />
-                <Route path={"/main"} component={MainPage} />
-                <Route component={NotFound} />
-            </Switch>
-        </Router>
+        <Switch>
+            <Route path={"/"} component={LoginPage} />
+            <Route path={"/main"} component={MainPage} />
+            <Route component={NotFound} />
+        </Switch>
     );
 }
 

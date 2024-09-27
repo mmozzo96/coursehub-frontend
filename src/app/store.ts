@@ -1,7 +1,8 @@
-import { configureStore } from "@reduxjs/toolkit";
+import { configureStore, createSelector } from "@reduxjs/toolkit";
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import tableDataReducer from "../features/tableData/tableDataSlice";
 import userSlice from "../features/user/userSlice";
+import { CoursesQuery, CoursesSubscriptionsQuery } from "../_types";
 
 export const basicAPI = createApi({
     reducerPath: "basicAPI",
@@ -61,6 +62,30 @@ export const store = configureStore({
             serializableCheck: false,
         }).concat(basicAPI.middleware),
 });
+
+const selectCoursesResult = basicAPI.endpoints.getTables.select(
+    "x_quo_coursehub_course"
+);
+export const selectCourses = createSelector(
+    selectCoursesResult,
+    (result: CoursesQuery) => result.data?.result ?? []
+);
+
+const selectCoursesSubscriptionResult = basicAPI.endpoints.getTables.select(
+    "x_quo_coursehub_course_subscription"
+);
+export const selectCoursesSubscription = createSelector(
+    selectCoursesSubscriptionResult,
+    (state: RootState) => state.user.currentUser?.sys_id,
+    (result: CoursesSubscriptionsQuery, learnerId) => {
+        const coursesSubscriptions = result?.data?.result;
+        if (!coursesSubscriptions || !learnerId) return [];
+        return coursesSubscriptions.filter(
+            (courseSubscription) =>
+                courseSubscription.learner.value === learnerId
+        );
+    }
+);
 
 export type RootState = ReturnType<typeof store.getState>;
 export type AppDispatch = typeof store.dispatch;

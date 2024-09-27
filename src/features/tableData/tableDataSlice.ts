@@ -1,8 +1,9 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { RootState } from "../../app/store";
+import { RootState, store } from "../../app/store";
 import { LearnerWithName } from "../../_types";
 import { UserQuery } from "./tableDataTypes";
 import { Learner } from "../../_types/queryTypes";
+import { setCurrentUser } from "../user/userSlice";
 
 type tableDataState = {
     learnersWithName: LearnerWithName[] | undefined;
@@ -34,6 +35,17 @@ export const setLearnersWithname = createAsyncThunk(
                 return { ...learner, name: user.result.name };
             })
         );
+
+        const localStorageUserId = localStorage.getItem(
+            process.env.REACT_APP_LOCALSTORAGE_USER_ID_KEY!
+        );
+        const localStorageUser = learnersWithName.find(
+            (learner) => learner.sys_id === localStorageUserId
+        );
+        if (localStorageUser) {
+            store.dispatch(setCurrentUser(localStorageUser));
+        }
+
         return learnersWithName;
     }
 );
