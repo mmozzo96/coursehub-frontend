@@ -4,13 +4,18 @@ import Router, { Switch, Route } from "crossroad";
 import LoginPage from "./pages/Login";
 import MainPage from "./pages/Main";
 import NotFound from "./pages/NotFound";
+import { useAppDispatch } from "./app/hooks";
+import { setLearnersWithname } from "./features/tableData/tableDataSlice";
 
 function App() {
-    const learnerTableQuery = useGetTablesQuery("x_quo_coursehub_learner");
+    const dispatch = useAppDispatch();
+
+    const learnersTableQuery = useGetTablesQuery("x_quo_coursehub_learner");
 
     React.useEffect(() => {
-        console.log(learnerTableQuery.data);
-    }, [learnerTableQuery.data]);
+        if (!learnersTableQuery.data) return;
+        dispatch(setLearnersWithname(learnersTableQuery.data.result));
+    }, [learnersTableQuery.data]);
 
     return (
         <Router>
