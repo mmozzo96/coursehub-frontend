@@ -1,4 +1,4 @@
-import { PayloadAction, createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { RootState } from "../../app/store";
 import { LearnerWithName } from "../../_types";
 import { UserQuery } from "./tableDataTypes";
@@ -42,7 +42,7 @@ export const setLearnersWithname = createAsyncThunk(
               Slice
 ===============================*/
 
-const tableDataslice = createSlice({
+const tableDataSlice = createSlice({
     name: "TableData",
     initialState,
     reducers: {},
@@ -64,4 +64,4 @@ const tableDataslice = createSlice({
 export const selectLearnersWithname = (state: RootState) =>
     state.tableData.learnersWithName;
 
-export default tableDataslice.reducer;
+export default tableDataSlice.reducer;
