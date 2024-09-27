@@ -3,6 +3,8 @@ import { useGetTablesQuery } from "../app/store";
 import { CourseQuery } from "../_types";
 import { useAppSelector } from "../app/hooks";
 import { selectCurrentUser } from "../features/user/userSlice";
+import { Flex } from "@chakra-ui/react";
+import Course from "../components/Course";
 
 const MainPage: React.FC = () => {
     const coursesQuery = useGetTablesQuery<CourseQuery>(
@@ -13,12 +15,12 @@ const MainPage: React.FC = () => {
     React.useEffect(() => console.log(currentUser?.name), [currentUser]);
 
     return (
-        <div>
+        <Flex flexDir={"column"} alignItems={"center"} gap={4}>
             {coursesQuery.data &&
                 coursesQuery.data.result.map((course) => (
-                    <div key={course.sys_id}>{course.title}</div>
+                    <Course key={course.sys_id} course={course} />
                 ))}
-        </div>
+        </Flex>
     );
 };
 

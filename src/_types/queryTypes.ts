@@ -17,7 +17,7 @@ export type LearnersQuery = Record<string, any> & {
     data?: { result: Learner[] };
 };
 
-export type Course = {
+export type CourseType = {
     description: string;
     duration: string;
     number: string;
@@ -33,5 +33,5 @@ export type Course = {
 };
 
 export type CourseQuery = Record<string, any> & {
-    data?: { result: Course[] };
+    data?: { result: CourseType[] };
 };
