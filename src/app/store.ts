@@ -1,7 +1,6 @@
 import { configureStore } from "@reduxjs/toolkit";
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import tableDataReducer from "../features/tableData/tableDataSlice";
-import { LearnersQuery } from "../features/tableData/tableDataTypes";
 
 export const basicAPI = createApi({
     reducerPath: "basicAPI",
@@ -21,7 +20,7 @@ export const basicAPI = createApi({
         },
     }),
     endpoints: (builder) => ({
-        getTables: builder.query<LearnersQuery, string>({
+        getTables: builder.query({
             query: (tableName: string) => tableName,
         }),
         getRecord: builder.query({

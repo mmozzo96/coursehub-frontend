@@ -6,12 +6,14 @@ import MainPage from "./pages/Main";
 import NotFound from "./pages/NotFound";
 import { useAppDispatch } from "./app/hooks";
 import { setLearnersWithname } from "./features/tableData/tableDataSlice";
+import { LearnersQuery } from "./_types";
 
 function App() {
     const dispatch = useAppDispatch();
 
-    const learnersTableQuery = useGetTablesQuery("x_quo_coursehub_learner");
-
+    const learnersTableQuery = useGetTablesQuery<LearnersQuery>(
+        "x_quo_coursehub_learner"
+    );
     React.useEffect(() => {
         if (!learnersTableQuery.data) return;
         dispatch(setLearnersWithname(learnersTableQuery.data.result));

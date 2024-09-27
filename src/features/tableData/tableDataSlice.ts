@@ -1,7 +1,8 @@
 import { PayloadAction, createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { RootState } from "../../app/store";
 import { LearnerWithName } from "../../_types";
-import { Learner, UserQuery } from "./tableDataTypes";
+import { UserQuery } from "./tableDataTypes";
+import { Learner } from "../../_types/queryTypes";
 
 type tableDataState = {
     learnersWithName: LearnerWithName[] | undefined;
