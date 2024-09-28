@@ -35,7 +35,7 @@ function App() {
     );
     React.useEffect(() => {
         if (!localStorageUserId) setUrl("/");
-    }, []);
+    }, [localStorageUserId, setUrl]);
 
     /*===============================
              Store Learners
@@ -47,7 +47,7 @@ function App() {
     React.useEffect(() => {
         if (!learnersTableQuery.data) return;
         dispatch(setLearnersWithname(learnersTableQuery.data.result));
-    }, [learnersTableQuery.data]);
+    }, [learnersTableQuery.data, dispatch]);
 
     /*==============================================
         Store Courses and Courses Subscriptions
@@ -83,7 +83,7 @@ function App() {
         });
         dispatch(setCurrentUserSubscribedCourses(subscribedCourses));
         dispatch(setCurrentUserUnsubscribedCourses(unsubscribedCourses));
-    }, [courses, currentUserCoursesSubscriptions]);
+    }, [courses, currentUserCoursesSubscriptions, dispatch]);
 
     return (
         <Switch>

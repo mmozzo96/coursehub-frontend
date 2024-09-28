@@ -22,7 +22,7 @@ const Courses: React.FC = () => {
     );
     React.useEffect(() => {
         if (!localStorageUserId) setUrl("/");
-    }, []);
+    }, [localStorageUserId, setUrl]);
 
     const subscribed = useAppSelector(selectCurrentUserSubscribedCourses);
     const unsubscribed = useAppSelector(selectCurrentUserUnsubscribedCourses);

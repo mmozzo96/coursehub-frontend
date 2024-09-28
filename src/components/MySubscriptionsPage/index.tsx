@@ -20,7 +20,7 @@ const MySubscriptions: React.FC<MySubscriptionProps> = ({
     );
     React.useEffect(() => {
         if (!localStorageUserId) setUrl("/");
-    }, []);
+    }, [localStorageUserId, setUrl]);
 
     const subscribed = useAppSelector(selectCurrentUserSubscribedCourses);
     const [deleteSubscription] = useDeleteRecordMutation();

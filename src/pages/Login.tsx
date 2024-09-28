@@ -23,7 +23,7 @@ const LoginPage: React.FC = () => {
             process.env.REACT_APP_LOCALSTORAGE_USER_ID_KEY!
         );
         dispatch(setCurrentUser(undefined));
-    }, []);
+    }, [dispatch]);
 
     return (
         <Flex

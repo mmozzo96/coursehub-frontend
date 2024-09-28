@@ -2,7 +2,7 @@ import React from "react";
 import { Box, Button, Flex, keyframes } from "@chakra-ui/react";
 import { CoursesSubscriptionsQuery, CourseType } from "../../_types";
 import { useGetTablesQuery } from "../../app/store";
-import { SmallAddIcon, DeleteIcon, SpinnerIcon } from "@chakra-ui/icons";
+import { SmallAddIcon, SpinnerIcon } from "@chakra-ui/icons";
 import moment from "moment";
 import { msToTimeFormat } from "../../utils/utils";
 
