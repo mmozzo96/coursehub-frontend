@@ -2,7 +2,7 @@ import React from "react";
 import { Box, Button, Flex, keyframes } from "@chakra-ui/react";
 import { CoursesSubscriptionsQuery, CourseType } from "../../_types";
 import { useGetTablesQuery } from "../../app/store";
-import { CheckIcon, DeleteIcon, SpinnerIcon } from "@chakra-ui/icons";
+import { SmallAddIcon, DeleteIcon, SpinnerIcon } from "@chakra-ui/icons";
 import moment from "moment";
 import { msToTimeFormat } from "../../utils/utils";
 
@@ -52,26 +52,33 @@ const Course: React.FC<CourseProps> = ({ course, onCLick, isSubscribed }) => {
                 <Box fontSize={12}>{course.type}</Box>
                 <Box mb={2}>{course.description}</Box>
             </Flex>
-            <Flex justifyContent={"space-between"} width={"100%"}>
+            <Flex
+                justifyContent={"space-between"}
+                alignItems={"center"}
+                width={"100%"}
+            >
                 <Box>
                     {msToTimeFormat(moment(course.duration).diff(moment(0)))}
                 </Box>
                 <Button
                     onClick={() => eOnCLick()}
-                    colorScheme={
-                        isLoading ? undefined : isSubscribed ? "red" : "green"
+                    variant={
+                        isLoading
+                            ? undefined
+                            : isSubscribed
+                            ? "outline"
+                            : undefined
                     }
-                    w={150}
+                    colorScheme="blue"
                 >
                     {isLoading ? (
                         <SpinnerIcon animation={spinAnimation} />
                     ) : isSubscribed ? (
-                        <span>
-                            Unsubscribe <DeleteIcon ml={1} mb={1} height={4} />
-                        </span>
+                        <span>Unsubscribe</span>
                     ) : (
                         <span>
-                            Subscribe <CheckIcon ml={2} mb={0.5} height={4} />
+                            <SmallAddIcon mr={1} mb={0.5} height={4} />
+                            Subscribe{" "}
                         </span>
                     )}
                 </Button>

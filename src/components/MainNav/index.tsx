@@ -11,7 +11,7 @@ import {
 import React from "react";
 import { useAppSelector } from "../../app/hooks";
 import { selectCurrentUser } from "../../features/user/userSlice";
-import { HamburgerIcon } from "@chakra-ui/icons";
+import { FaRegUser } from "react-icons/fa";
 import { FiLogOut } from "react-icons/fi";
 import { useUrl } from "crossroad";
 
@@ -27,15 +27,19 @@ const MainNav: React.FC = () => {
             p={6}
             pr={8}
             gap={4}
-            bg={"gray.400"}
+            bg={"blue.100"}
         >
             <Box fontSize={30} fontWeight={800}>
                 CourseHub
             </Box>
             <Menu offset={[0, 10]}>
-                <MenuButton as={Button} minW={"fit-content"}>
+                <MenuButton
+                    as={Button}
+                    minW={"fit-content"}
+                    alignItems={"center"}
+                >
+                    <Icon as={FaRegUser} mr={2} mb={-0.5} />
                     <span>{currentUser?.name}</span>
-                    <HamburgerIcon ml={3} mb={1} />
                 </MenuButton>
                 <MenuList>
                     <MenuItem onClick={() => setUrl("/")}>

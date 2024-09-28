@@ -16,7 +16,7 @@ const MainPage: React.FC = () => {
             <Tabs
                 index={tabIndex}
                 onChange={handleTabsChange}
-                colorScheme="cyan"
+                colorScheme="blue"
             >
                 <TabList>
                     <Tab fontWeight={800}>All courses</Tab>
