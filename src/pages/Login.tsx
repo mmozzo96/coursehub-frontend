@@ -11,6 +11,7 @@ import {
     Link,
 } from "@chakra-ui/react";
 import { setCurrentUser } from "../features/user/userSlice";
+import { ChevronDownIcon } from "@chakra-ui/icons";
 
 const LoginPage: React.FC = () => {
     const dispatch = useAppDispatch();
@@ -32,7 +33,8 @@ const LoginPage: React.FC = () => {
         >
             <Menu offset={[-50, 10]}>
                 <MenuButton as={Button} w={200}>
-                    Select a Learner
+                    <span>Select a Learner</span>{" "}
+                    <ChevronDownIcon h={5} w={5} />
                 </MenuButton>
                 <MenuList w={300}>
                     {learnersWithName?.map((learnerWithName) => (
