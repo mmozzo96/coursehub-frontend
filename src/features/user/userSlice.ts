@@ -1,10 +1,11 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { RootState } from "../../app/store";
 import { CourseType, LearnerWithName } from "../../_types";
+import { CourseTypeWithSubscriptionId } from "./userType";
 
 type userState = {
     currentUser: LearnerWithName | undefined;
-    currentUserSubscribedCourses: CourseType[] | undefined;
+    currentUserSubscribedCourses: CourseTypeWithSubscriptionId[] | undefined;
     currentUserUnsubscribedCourses: CourseType[] | undefined;
 };
 
@@ -34,7 +35,7 @@ const userSlice = createSlice({
         },
         setCurrentUserSubscribedCourses: (
             state,
-            action: PayloadAction<CourseType[]>
+            action: PayloadAction<CourseTypeWithSubscriptionId[]>
         ) => {
             state.currentUserSubscribedCourses = action.payload;
         },

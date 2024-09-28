@@ -4,7 +4,7 @@ import {
     selectCoursesSubscription,
     useGetTablesQuery,
 } from "./app/store";
-import Router, { Switch, Route, useUrl } from "crossroad";
+import { Switch, Route, useUrl } from "crossroad";
 import LoginPage from "./pages/Login";
 import CoursesPage from "./pages/Courses";
 import NotFound from "./pages/NotFound";
@@ -13,15 +13,14 @@ import { setLearnersWithname } from "./features/tableData/tableDataSlice";
 import {
     CoursesQuery,
     CoursesSubscriptionsQuery,
-    CourseSubscription,
     CourseType,
     LearnersQuery,
 } from "./_types";
 import {
-    selectCurrentUser,
     setCurrentUserSubscribedCourses,
     setCurrentUserUnsubscribedCourses,
 } from "./features/user/userSlice";
+import { CourseTypeWithSubscriptionId } from "./features/user/userType";
 
 function App() {
     const [, setUrl] = useUrl();
@@ -70,16 +69,18 @@ function App() {
         selectCoursesSubscription
     );
     React.useEffect(() => {
-        var subscribedCourses: CourseType[] = [];
+        var subscribedCourses: CourseTypeWithSubscriptionId[] = [];
         var unsubscribedCourses: CourseType[] = [];
         courses.forEach((course) => {
-            if (
-                currentUserCoursesSubscriptions.find(
-                    (courseSubscription) =>
-                        courseSubscription.course.value === course.sys_id
-                )
-            )
-                subscribedCourses.push(course);
+            const subscription = currentUserCoursesSubscriptions.find(
+                (courseSubscription) =>
+                    courseSubscription.course.value === course.sys_id
+            );
+            if (subscription)
+                subscribedCourses.push({
+                    ...course,
+                    subscription_id: subscription.sys_id,
+                });
             else unsubscribedCourses.push(course);
         });
         dispatch(setCurrentUserSubscribedCourses(subscribedCourses));

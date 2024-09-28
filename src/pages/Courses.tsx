@@ -1,5 +1,5 @@
 import React from "react";
-import { selectCourses, selectCoursesSubscription } from "../app/store";
+import { useCreateRecordMutation, useDeleteRecordMutation } from "../app/store";
 import { useAppSelector } from "../app/hooks";
 import {
     selectCurrentUser,
@@ -13,12 +13,19 @@ import { useUrl } from "crossroad";
 const CoursesPage: React.FC = () => {
     const [, setUrl] = useUrl();
     const currentUser = useAppSelector(selectCurrentUser);
+
+    const localStorageUserId = localStorage.getItem(
+        process.env.REACT_APP_LOCALSTORAGE_USER_ID_KEY!
+    );
     React.useEffect(() => {
-        if (!currentUser) setUrl("/");
+        if (!localStorageUserId) setUrl("/");
     }, []);
 
     const subscribed = useAppSelector(selectCurrentUserSubscribedCourses);
     const unsubscribed = useAppSelector(selectCurrentUserUnsubscribedCourses);
+
+    const [createSubscription] = useCreateRecordMutation();
+    const [deleteSubscription] = useDeleteRecordMutation();
 
     return (
         <Flex flexDir={"column"} alignItems={"center"} gap={4}>
@@ -27,8 +34,12 @@ const CoursesPage: React.FC = () => {
                     <Course
                         key={course.sys_id}
                         course={course}
-                        subscribeOnCLick={() => {
-                            /* TO DO */
+                        onCLick={() => {
+                            return deleteSubscription({
+                                tableName:
+                                    "x_quo_coursehub_course_subscription",
+                                record_id: course.subscription_id,
+                            });
                         }}
                         isSubscribed
                     />
@@ -39,8 +50,13 @@ const CoursesPage: React.FC = () => {
                     <Course
                         key={course.sys_id}
                         course={course}
-                        subscribeOnCLick={() => {
-                            /* TO DO */
+                        onCLick={() => {
+                            return createSubscription({
+                                tableName:
+                                    "x_quo_coursehub_course_subscription",
+                                course: course.sys_id,
+                                learner: currentUser!.sys_id,
+                            });
                         }}
                     />
                 );

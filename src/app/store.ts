@@ -26,28 +26,43 @@ export const basicAPI = createApi({
             query: (tableName: string) => tableName,
         }),
         getRecord: builder.query({
-            query: ({ tableName, record_id }) => tableName + "/" + record_id,
+            query: ({
+                tableName,
+                record_id,
+            }: {
+                tableName: string;
+                record_id: string;
+            }) => tableName + "/" + record_id,
         }),
         createRecord: builder.mutation({
-            query: ({ tablename, ...patch }) => ({
-                url: tablename,
+            query: ({
+                tableName,
+                ...patch
+            }: Record<string, string> & { tableName: string }) => ({
+                url: tableName,
                 method: "POST",
                 body: patch,
             }),
         }),
-        updateRecord: builder.mutation({
-            query: ({ tablename, ...patch }) => ({
-                url: tablename,
-                method: "PUT",
-                body: patch,
+        deleteRecord: builder.mutation({
+            query: ({
+                tableName,
+                record_id,
+            }: {
+                tableName: string;
+                record_id: string;
+            }) => ({
+                url: tableName + "/" + record_id,
+                method: "DELETE",
             }),
         }),
     }),
 });
 export const {
     useGetTablesQuery,
+    useGetRecordQuery,
     useCreateRecordMutation,
-    useUpdateRecordMutation,
+    useDeleteRecordMutation,
 } = basicAPI;
 
 export const store = configureStore({

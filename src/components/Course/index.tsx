@@ -1,18 +1,28 @@
 import React from "react";
-import { Box, Button, Flex } from "@chakra-ui/react";
-import { CourseType } from "../../_types";
+import { Box, Button, Flex, keyframes } from "@chakra-ui/react";
+import { CoursesSubscriptionsQuery, CourseType } from "../../_types";
+import { useGetTablesQuery } from "../../app/store";
+import { CheckIcon, CloseIcon, SpinnerIcon } from "@chakra-ui/icons";
 
 type CourseProps = {
     course: CourseType;
-    subscribeOnCLick: () => void;
+    onCLick: () => Promise<any>;
     isSubscribed?: boolean;
 };
 
-const Course: React.FC<CourseProps> = ({
-    course,
-    subscribeOnCLick,
-    isSubscribed,
-}) => {
+const Course: React.FC<CourseProps> = ({ course, onCLick, isSubscribed }) => {
+    const [isLoading, setIsLoading] = React.useState<boolean>(false);
+
+    const subscriptionsQuery = useGetTablesQuery<CoursesSubscriptionsQuery>(
+        "x_quo_coursehub_course_subscription"
+    );
+    const eOnCLick = () => {
+        setIsLoading(true);
+        onCLick().then(() => subscriptionsQuery.refetch());
+    };
+
+    const spinAnimation = `${spin} infinite 2s linear`;
+
     return (
         <Flex
             border={"1px"}
@@ -32,10 +42,23 @@ const Course: React.FC<CourseProps> = ({
             <Box>{course.description}</Box>
             <Flex justifyContent={"flex-end"} width={"100%"}>
                 <Button
-                    onClick={() => subscribeOnCLick()}
-                    bg={isSubscribed ? "green" : undefined}
+                    onClick={() => eOnCLick()}
+                    colorScheme={
+                        isLoading ? undefined : isSubscribed ? "red" : "green"
+                    }
+                    w={150}
                 >
-                    Subscribe
+                    {isLoading ? (
+                        <SpinnerIcon animation={spinAnimation} />
+                    ) : isSubscribed ? (
+                        <span>
+                            Unsubscribe <CloseIcon ml={2} height={3} />
+                        </span>
+                    ) : (
+                        <span>
+                            Subscribe <CheckIcon ml={2} height={4} />
+                        </span>
+                    )}
                 </Button>
             </Flex>
         </Flex>
@@ -43,3 +66,8 @@ const Course: React.FC<CourseProps> = ({
 };
 
 export default Course;
+
+const spin = keyframes`  
+  from {transform: rotate(0deg);}   
+  to {transform: rotate(360deg)} 
+`;
