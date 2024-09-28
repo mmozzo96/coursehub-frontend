@@ -5,9 +5,14 @@ import { CourseType } from "../../_types";
 type CourseProps = {
     course: CourseType;
     subscribeOnCLick: () => void;
+    isSubscribed?: boolean;
 };
 
-const Course: React.FC<CourseProps> = ({ course, subscribeOnCLick }) => {
+const Course: React.FC<CourseProps> = ({
+    course,
+    subscribeOnCLick,
+    isSubscribed,
+}) => {
     return (
         <Flex
             border={"1px"}
@@ -26,7 +31,12 @@ const Course: React.FC<CourseProps> = ({ course, subscribeOnCLick }) => {
             </Box>
             <Box>{course.description}</Box>
             <Flex justifyContent={"flex-end"} width={"100%"}>
-                <Button onClick={() => subscribeOnCLick()}>Subscribe</Button>
+                <Button
+                    onClick={() => subscribeOnCLick()}
+                    bg={isSubscribed ? "green" : undefined}
+                >
+                    Subscribe
+                </Button>
             </Flex>
         </Flex>
     );

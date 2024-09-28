@@ -1,13 +1,17 @@
-import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { RootState } from "../../app/store";
-import { LearnerWithName } from "../../_types";
+import { CourseType, LearnerWithName } from "../../_types";
 
 type userState = {
     currentUser: LearnerWithName | undefined;
+    currentUserSubscribedCourses: CourseType[] | undefined;
+    currentUserUnsubscribedCourses: CourseType[] | undefined;
 };
 
 const initialState: userState = {
     currentUser: undefined,
+    currentUserSubscribedCourses: undefined,
+    currentUserUnsubscribedCourses: undefined,
 };
 
 /*===============================
@@ -25,6 +29,18 @@ const userSlice = createSlice({
         setCurrentUser: (state, action: PayloadAction<LearnerWithName>) => {
             state.currentUser = action.payload;
         },
+        setCurrentUserSubscribedCourses: (
+            state,
+            action: PayloadAction<CourseType[]>
+        ) => {
+            state.currentUserSubscribedCourses = action.payload;
+        },
+        setCurrentUserUnsubscribedCourses: (
+            state,
+            action: PayloadAction<CourseType[]>
+        ) => {
+            state.currentUserUnsubscribedCourses = action.payload;
+        },
     },
 });
 
@@ -32,12 +48,20 @@ const userSlice = createSlice({
             Actions
 ===============================*/
 
-export const { setCurrentUser } = userSlice.actions;
+export const {
+    setCurrentUser,
+    setCurrentUserSubscribedCourses,
+    setCurrentUserUnsubscribedCourses,
+} = userSlice.actions;
 
 /*===============================
            Selectors
 ===============================*/
 
 export const selectCurrentUser = (state: RootState) => state.user.currentUser;
+export const selectCurrentUserSubscribedCourses = (state: RootState) =>
+    state.user.currentUserSubscribedCourses;
+export const selectCurrentUserUnsubscribedCourses = (state: RootState) =>
+    state.user.currentUserUnsubscribedCourses;
 
 export default userSlice.reducer;
