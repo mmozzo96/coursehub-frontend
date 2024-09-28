@@ -6,7 +6,6 @@ import {
 } from "./app/store";
 import { Switch, Route, useUrl } from "crossroad";
 import LoginPage from "./pages/Login";
-import CoursesPage from "./pages/Courses";
 import NotFound from "./pages/NotFound";
 import { useAppDispatch, useAppSelector } from "./app/hooks";
 import { setLearnersWithname } from "./features/tableData/tableDataSlice";
@@ -21,6 +20,7 @@ import {
     setCurrentUserUnsubscribedCourses,
 } from "./features/user/userSlice";
 import { CourseTypeWithSubscriptionId } from "./features/user/userType";
+import MainPage from "./pages/Main";
 
 function App() {
     const [, setUrl] = useUrl();
@@ -53,12 +53,10 @@ function App() {
         Store Courses and Courses Subscriptions
     ==============================================*/
 
-    const subscriptionsQuery = useGetTablesQuery<CoursesSubscriptionsQuery>(
+    useGetTablesQuery<CoursesSubscriptionsQuery>(
         "x_quo_coursehub_course_subscription"
     );
-    const coursesQuery = useGetTablesQuery<CoursesQuery>(
-        "x_quo_coursehub_course"
-    );
+    useGetTablesQuery<CoursesQuery>("x_quo_coursehub_course");
 
     /*===============================
         Store User's subscription
@@ -87,27 +85,10 @@ function App() {
         dispatch(setCurrentUserUnsubscribedCourses(unsubscribedCourses));
     }, [courses, currentUserCoursesSubscriptions]);
 
-    /*===============================
-        Check if server is online
-    ===============================*/
-
-    // ============ TO DO ============ //
-    // If server is hibernating queries will return errors, could use that to display an error page
-
-    /* const [isLoading, setIsLoading] = React.useState<boolean>(false);
-    const [isError, setIsError] = React.useState<boolean>(false);
-
-    React.useEffect(() => {
-        const data =
-            learnersTableQuery.data ||
-            coursesQuery.data ||
-            subscriptionsQuery.data;
-    }, [learnersTableQuery, coursesQuery, subscriptionsQuery]); */
-
     return (
         <Switch>
             <Route path={"/"} component={LoginPage} />
-            <Route path={"/courses"} component={CoursesPage} />
+            <Route path={"/main"} component={MainPage} />
             <Route component={NotFound} />
         </Switch>
     );

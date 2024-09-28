@@ -1,4 +1,5 @@
 import {
+    Box,
     Button,
     Flex,
     Icon,
@@ -20,14 +21,23 @@ const MainNav: React.FC = () => {
     const currentUser = useAppSelector(selectCurrentUser);
 
     return (
-        <Flex as="nav" justifyContent={"flex-end"} p={6} pr={8} bg={"gray.400"}>
+        <Flex
+            as="nav"
+            justifyContent={"space-between"}
+            p={6}
+            pr={8}
+            gap={4}
+            bg={"gray.400"}
+        >
+            <Box fontSize={30} fontWeight={800}>
+                CourseHub
+            </Box>
             <Menu offset={[0, 10]}>
-                <MenuButton as={Button}>
-                    <span>{currentUser?.name}</span>{" "}
+                <MenuButton as={Button} minW={"fit-content"}>
+                    <span>{currentUser?.name}</span>
                     <HamburgerIcon ml={3} mb={1} />
                 </MenuButton>
                 <MenuList>
-                    <MenuItem>My subscriptions</MenuItem>
                     <MenuItem onClick={() => setUrl("/")}>
                         <Icon as={FiLogOut} mr={3} />
                         <span>Log out</span>

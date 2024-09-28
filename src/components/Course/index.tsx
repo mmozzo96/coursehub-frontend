@@ -2,12 +2,9 @@ import React from "react";
 import { Box, Button, Flex, keyframes } from "@chakra-ui/react";
 import { CoursesSubscriptionsQuery, CourseType } from "../../_types";
 import { useGetTablesQuery } from "../../app/store";
-import {
-    CheckIcon,
-    CloseIcon,
-    DeleteIcon,
-    SpinnerIcon,
-} from "@chakra-ui/icons";
+import { CheckIcon, DeleteIcon, SpinnerIcon } from "@chakra-ui/icons";
+import moment from "moment";
+import { msToTimeFormat } from "../../utils/utils";
 
 type CourseProps = {
     course: CourseType;
@@ -18,12 +15,18 @@ type CourseProps = {
 const Course: React.FC<CourseProps> = ({ course, onCLick, isSubscribed }) => {
     const [isLoading, setIsLoading] = React.useState<boolean>(false);
 
+    React.useEffect(() => {
+        setIsLoading(false);
+    }, [isSubscribed]);
+
     const subscriptionsQuery = useGetTablesQuery<CoursesSubscriptionsQuery>(
         "x_quo_coursehub_course_subscription"
     );
     const eOnCLick = () => {
         setIsLoading(true);
-        onCLick().then(() => subscriptionsQuery.refetch());
+        onCLick().then(() => {
+            subscriptionsQuery.refetch();
+        });
     };
 
     const spinAnimation = `${spin} infinite 2s linear`;
@@ -35,17 +38,24 @@ const Course: React.FC<CourseProps> = ({ course, onCLick, isSubscribed }) => {
             borderRadius={8}
             flexDirection={"column"}
             alignItems={"center"}
+            justifyContent={"space-between"}
             p={"12px 32px 24px 32px"}
-            w={700}
-            gap={1}
+            maxW={400}
+            gap={2}
             boxShadow={"md"}
             bg={"gray.50"}
         >
-            <Box fontSize={20} fontWeight={600}>
-                {course.title}
-            </Box>
-            <Box>{course.description}</Box>
-            <Flex justifyContent={"flex-end"} width={"100%"}>
+            <Flex flexDir={"column"} gap={2}>
+                <Box fontSize={20} fontWeight={600}>
+                    {course.title}
+                </Box>
+                <Box fontSize={12}>{course.type}</Box>
+                <Box mb={2}>{course.description}</Box>
+            </Flex>
+            <Flex justifyContent={"space-between"} width={"100%"}>
+                <Box>
+                    {msToTimeFormat(moment(course.duration).diff(moment(0)))}
+                </Box>
                 <Button
                     onClick={() => eOnCLick()}
                     colorScheme={

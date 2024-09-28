@@ -9,6 +9,7 @@ import {
     MenuItem,
     Button,
     Link,
+    Heading,
 } from "@chakra-ui/react";
 import { setCurrentUser } from "../features/user/userSlice";
 import { ChevronDownIcon } from "@chakra-ui/icons";
@@ -30,7 +31,17 @@ const LoginPage: React.FC = () => {
             flexDirection={"column"}
             alignItems={"center"}
             h={"100vh"}
+            gap={4}
         >
+            <Heading textAlign={"center"}>
+                Welcome to{" "}
+                <span style={{ fontSize: "50px", fontWeight: "800" }}>
+                    CourseHub
+                </span>
+            </Heading>
+            <Heading size={"md"} mb={6} textAlign={"center"}>
+                You can start by selecting a learner
+            </Heading>
             <Menu offset={[-50, 10]}>
                 <MenuButton as={Button} w={200}>
                     <span>Select a Learner</span>{" "}
@@ -49,7 +60,7 @@ const LoginPage: React.FC = () => {
                                     learnerWithName.sys_id
                                 );
                             }}
-                            href="/courses"
+                            href="/main"
                         >
                             {learnerWithName.name}
                         </MenuItem>
