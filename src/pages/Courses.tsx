@@ -8,20 +8,17 @@ import {
 } from "../features/user/userSlice";
 import { Flex } from "@chakra-ui/react";
 import Course from "../components/Course";
+import { useUrl } from "crossroad";
 
-const MainPage: React.FC = () => {
-    const courses = useAppSelector(selectCourses);
-
+const CoursesPage: React.FC = () => {
+    const [, setUrl] = useUrl();
     const currentUser = useAppSelector(selectCurrentUser);
-    const currentUserCoursesSubscriptions = useAppSelector(
-        selectCoursesSubscription
-    );
+    React.useEffect(() => {
+        if (!currentUser) setUrl("/");
+    }, []);
+
     const subscribed = useAppSelector(selectCurrentUserSubscribedCourses);
     const unsubscribed = useAppSelector(selectCurrentUserUnsubscribedCourses);
-
-    React.useEffect(() => {
-        console.log(subscribed, unsubscribed);
-    }, [subscribed, unsubscribed]);
 
     return (
         <Flex flexDir={"column"} alignItems={"center"} gap={4}>
@@ -52,4 +49,4 @@ const MainPage: React.FC = () => {
     );
 };
 
-export default MainPage;
+export default CoursesPage;

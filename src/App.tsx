@@ -6,7 +6,7 @@ import {
 } from "./app/store";
 import Router, { Switch, Route, useUrl } from "crossroad";
 import LoginPage from "./pages/Login";
-import MainPage from "./pages/Main";
+import CoursesPage from "./pages/Courses";
 import NotFound from "./pages/NotFound";
 import { useAppDispatch, useAppSelector } from "./app/hooks";
 import { setLearnersWithname } from "./features/tableData/tableDataSlice";
@@ -106,7 +106,7 @@ function App() {
     return (
         <Switch>
             <Route path={"/"} component={LoginPage} />
-            <Route path={"/main"} component={MainPage} />
+            <Route path={"/courses"} component={CoursesPage} />
             <Route component={NotFound} />
         </Switch>
     );

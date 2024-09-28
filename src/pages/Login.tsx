@@ -20,6 +20,7 @@ const LoginPage: React.FC = () => {
         localStorage.removeItem(
             process.env.REACT_APP_LOCALSTORAGE_USER_ID_KEY!
         );
+        dispatch(setCurrentUser(undefined));
     }, []);
 
     return (
@@ -46,7 +47,7 @@ const LoginPage: React.FC = () => {
                                     learnerWithName.sys_id
                                 );
                             }}
-                            href="/main"
+                            href="/courses"
                         >
                             {learnerWithName.name}
                         </MenuItem>

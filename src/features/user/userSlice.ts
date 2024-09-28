@@ -26,7 +26,10 @@ const userSlice = createSlice({
     name: "User",
     initialState,
     reducers: {
-        setCurrentUser: (state, action: PayloadAction<LearnerWithName>) => {
+        setCurrentUser: (
+            state,
+            action: PayloadAction<LearnerWithName | undefined>
+        ) => {
             state.currentUser = action.payload;
         },
         setCurrentUserSubscribedCourses: (
