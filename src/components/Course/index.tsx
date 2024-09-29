@@ -61,7 +61,9 @@ const Course: React.FC<CourseProps> = ({ course, onCLick, isSubscribed }) => {
                     {msToTimeFormat(moment(course.duration).diff(moment(0)))}
                 </Box>
                 <Button
-                    onClick={() => eOnCLick()}
+                    onClick={() => {
+                        !isLoading && eOnCLick();
+                    }}
                     variant={
                         isLoading
                             ? undefined
@@ -70,6 +72,7 @@ const Course: React.FC<CourseProps> = ({ course, onCLick, isSubscribed }) => {
                             : undefined
                     }
                     colorScheme="blue"
+                    disabled={isLoading}
                 >
                     {isLoading ? (
                         <SpinnerIcon animation={spinAnimation} />
